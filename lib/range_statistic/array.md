@@ -86,7 +86,7 @@ Konacno, stablo pruza nacin za implementaciju custom obilazaka. Potrebno je defi
 * inace, poziva se funkcija `GoLeftFirst(const range_statistic::ArrayRange& range, const StatsType& stats)` koja odlucuje hoce li se djeca pozvati u redoslijedu "lijevo pa desno" ili "desno pa lijevo".
 * Konacno funkcija `IsDone()` se poziva izmedju nakon povratka iz prvog djeteta. Ukoliko vrati true, obilazak nastavljamo povratkom u roditelja, umjesto u drugo dijete.
 
-Na dva primjera prikazat cemo kako implementirati obilazak stabla. U prvom primjeru zelimo ispisati elemente niza na indexima [lo, hi> u obrnutom poretku u O(log n + k):
+Na dva primjera prikazat cemo kako implementirati obilazak stabla. U prvom primjeru zelimo ispisati elemente niza na indexima [lo, hi> u obrnutom poretku u O(log n + (hi - lo)):
 
 ```C++
 struct OutputRangeReversedOp {
