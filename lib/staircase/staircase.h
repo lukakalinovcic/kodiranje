@@ -45,14 +45,14 @@ class Staircase {
   void AdvanceY0(V y0) {
     const int x0 = points_.begin()->first;
     int prev_y = points_.rbegin()->second;
-    points_.erase(points_.rbegin());
+    points_.erase(--points_.end());
     while (points_.rbegin()->second <= y0) {
-      area_ -= A(points_.begin()->first - x0) *
-               A(points_.begin()->second - prev_y);
-      prev_y = points_.begin()->second;
-      points_.erase(points_.rbegin());
+      area_ -= A(points_.rbegin()->first - x0) *
+               A(points_.rbegin()->second - prev_y);
+      prev_y = points_.rbegin()->second;
+      points_.erase(--points_.end());
     }
-    area_ -= A(points_.begin()->first - x0) * A(y0 - prev_y);
+    area_ -= A(points_.rbegin()->first - x0) * A(y0 - prev_y);
     points_[std::numeric_limits<V>::max()] = y0;
   }
 
