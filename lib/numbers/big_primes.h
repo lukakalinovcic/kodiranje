@@ -26,29 +26,29 @@ int64 BigPow(int64 a, int64 n, int64 mod) {
   return BigMult(x, x, mod);
 }
 
-int IsStrongProbablePrime(int64 n, int64 a) {
-  if (n <= 1) return 0;
-  if (n == a) return 1;
+bool IsStrongProbablePrime(int64 n, int64 a) {
+  if (n <= 1) return false;
+  if (n == a) return true;
 
   int s = 0;
   while ((n - 1) % (1LL << (s + 1)) == 0 ) ++s;
 
   int64 d = (n - 1) / (1LL << s);
-  if (BigPow( a, d, n) == 1) return 1;
+  if (BigPow( a, d, n) == 1) return true;
   for (int r = 0; r < s; ++r) {
-    if (BigPow(a, d * (1LL << r), n) == n - 1) return 1;
+    if (BigPow(a, d * (1LL << r), n) == n - 1) return true;
   }
-  return 0;
+  return false;
 }
 
-int IsPrime(int64 n) {
-  if (n == 1) return 0;
-  if (n != 2 && n % 2 == 0) return 0;
-  if (n == 46856248255981LL) return 0;
-  if (IsStrongProbablePrime(n, 2) == 0) return 0;
-  if (IsStrongProbablePrime(n, 3) == 0) return 0;
-  if (IsStrongProbablePrime(n, 7) == 0) return 0;
-  if (IsStrongProbablePrime(n, 61) == 0) return 0;
-  if (IsStrongProbablePrime(n, 24251) == 0) return 0;
-  return 1;
+bool IsPrime(int64 n) {
+  if (n == 1) return false;
+  if (n != 2 && n % 2 == 0) return false;
+  if (n == 46856248255981LL) return false;
+  if (IsStrongProbablePrime(n, 2) == 0) return false;
+  if (IsStrongProbablePrime(n, 3) == 0) return false;
+  if (IsStrongProbablePrime(n, 7) == 0) return false;
+  if (IsStrongProbablePrime(n, 61) == 0) return false;
+  if (IsStrongProbablePrime(n, 24251) == 0) return false;
+  return true;
 }
