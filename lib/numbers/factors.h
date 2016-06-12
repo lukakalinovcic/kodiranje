@@ -25,7 +25,7 @@ class OfflineFactorizator {
     }
   }
 
-  std::vector<Factor<int>> GetFactors(int n) {
+  std::vector<Factor<int>> GetFactors(int n) const {
     std::vector<Factor<int>> factors;
     while (n != 1) {
       factors.emplace_back();
@@ -38,7 +38,7 @@ class OfflineFactorizator {
     return factors;
   }
 
-  bool IsPrime(int n) {
+  bool IsPrime(int n) const {
     return lookup_[n].second == 1;
   }
 
@@ -56,7 +56,7 @@ class OnlineFactorizator {
     primes_.push_back(2000000000);  // sentinel.
   }
 
-  std::vector<Factor<T>> GetFactors(T n) {
+  std::vector<Factor<T>> GetFactors(T n) const {
     std::vector<Factor<T>> factors;
     for (int i = 0; (long long)primes_[i] * primes_[i] <= n; ++i) {
       if (n % primes_[i]) continue;
@@ -80,12 +80,14 @@ class OnlineFactorizator {
     return factors;
   }
 
-  bool IsPrime(T n) {
+  bool IsPrime(T n) const {
     for (int i = 0; (long long)primes_[i] * primes_[i] <= n; ++i) {
       if (n % primes_[i] == 0) return false;
     }
     return true;
   }
+
+  const std::vector<int>& primes() const { return primes_; }
 
  private:
   std::vector<int> primes_;
