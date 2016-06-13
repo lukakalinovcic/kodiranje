@@ -5,7 +5,8 @@
 #include <cmath>
 #include <vector>
 
-#include "primes.h"
+#include "lib/base/integral_types.h"
+#include "lib/numbers/primes.h"
 
 template <typename T>
 struct Factor {
@@ -21,7 +22,7 @@ class OfflineFactorizator {
     for (int i = 2; i <= n; ++i) {
       if (lookup_[i].first != 0) continue;
       lookup_[i] = std::pair<int, int>(i, 1);
-      if ((long long) i * i > n) continue;
+      if ((int64) i * i > n) continue;
       for (int j = i * i, q = i; j <= n; j += i, ++q) {
         if (lookup_[j].first == 0) lookup_[j] = std::pair<int, int>(i, q);
       }
@@ -61,7 +62,7 @@ class OnlineFactorizator {
 
   std::vector<Factor<T>> GetFactors(T n) const {
     std::vector<Factor<T>> factors;
-    for (int i = 0; (long long)primes_[i] * primes_[i] <= n; ++i) {
+    for (int i = 0; (int64)primes_[i] * primes_[i] <= n; ++i) {
       if (n % primes_[i]) continue;
       factors.emplace_back();
       auto& f = factors.back();
@@ -84,7 +85,7 @@ class OnlineFactorizator {
   }
 
   bool IsPrime(T n) const {
-    for (int i = 0; (long long)primes_[i] * primes_[i] <= n; ++i) {
+    for (int i = 0; (int64)primes_[i] * primes_[i] <= n; ++i) {
       if (n % primes_[i] == 0) return false;
     }
     return true;

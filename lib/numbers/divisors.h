@@ -1,7 +1,9 @@
 #ifndef LIB_NUMBERS_DIVISORS_H_
 #define LIB_NUMBERS_DIVISORS_H_
 
-#include "factors.h"
+#include <vector>
+
+#include "lib/numbers/factors.h"
 
 template <typename T, typename F>
 class DivisorGenerator {

@@ -5,6 +5,8 @@
 #include <cstring>
 #include <vector>
 
+#include "lib/base/integral_types.h"
+
 std::vector<int> PrimesUpTo(int n) {
   int data_len = (n >> 5) + 1;
   int* data = new int[data_len];
@@ -17,7 +19,7 @@ std::vector<int> PrimesUpTo(int n) {
   for (int i = 2; i <= n; ++i) {
     if ((data[(i >> 5)] >> (i & 31)) & 1) continue;
     primes.push_back(i);
-    if ((long long) i * i > n) continue;
+    if ((int64)i * i > n) continue;
     for (int j = i * i; j <= n; j += i) {
       data[(j >> 5)] |= 1 << (j & 31);
     }

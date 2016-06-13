@@ -1,9 +1,7 @@
 #ifndef LIB_NUMBERS_BIG_PRIMES_H_
 #define LIB_NUMBERS_BIG_PRIMES_H_
-
 // Works up to 10^16.
-
-typedef long long int64;
+#include "lib/base/integral_types.h"
 
 int64 BigMult(int64 a, int64 b, int64 mod) {
   static int64 p[32];
