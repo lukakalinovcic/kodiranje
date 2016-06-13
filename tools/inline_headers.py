@@ -100,7 +100,7 @@ with open(args.outfile, 'w') as f:
 
   def OutputLib(f, path):
     if path not in lines: return
-    for lib_include in lib_includes[path]:
+    for lib_include in sorted(lib_includes[path]):
       OutputLib(f, lib_include)
     canonical_path = path.replace('/home/kalinov/kodiranje/', '')
     f.write('\n//\n// {0}\n//\n'.format(canonical_path))
@@ -108,7 +108,7 @@ with open(args.outfile, 'w') as f:
     for line in ProcessForOutput(lines.pop(path), canonical_path):
       f.write('{0}\n'.format(line.rstrip()))
   
-  for lib_include in lib_includes[args.infile]:
+  for lib_include in sorted(lib_includes[args.infile]):
     OutputLib(f, lib_include)
 
   f.write('\n//\n')
