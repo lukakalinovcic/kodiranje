@@ -2,6 +2,8 @@
 #define LIB_CONTAINER_SMALL_MAP_H_
 
 // Incomplete
+#include <algorithm>
+#include <vector>
 
 template<typename K, typename V>
 class SmallMap {
@@ -10,16 +12,20 @@ class SmallMap {
     for (int i = 0; i < data_.size(); ++i) {
       if (data_[i].first == key) return data_[i].second;
     }
-    data_.push_back(pair<K, V>(key, V()));
+    data_.push_back(std::pair<K, V>(key, V()));
     return data_.back().second;
   }
   void clear() {
     data_.clear();
   }
-  typename vector<pair<K, V>>::iterator begin() { return data_.begin(); }
-  typename vector<pair<K, V>>::iterator end() { return data_.end(); }
+  typename std::vector<std::pair<K, V>>::iterator begin() {
+    return data_.begin();
+  }
+  typename std::vector<std::pair<K, V>>::iterator end() {
+    return data_.end();
+  }
  private:
-  vector<pair<K, V>> data_;
+  std::vector<std::pair<K, V>> data_;
 };
 
 #endif  // LIB_CONTAINER_SMALL_MAP_H_

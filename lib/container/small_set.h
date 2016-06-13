@@ -2,6 +2,7 @@
 #define LIB_CONTAINER_SMALL_SET_H_
 
 // Incomplete
+#include <vector>
 
 template<typename T>
 class SmallSet {
@@ -15,10 +16,10 @@ class SmallSet {
   void clear() {
     data_.clear();
   }
-  typename vector<T>::iterator begin() { return data_.begin(); }
-  typename vector<T>::iterator end() { return data_.end(); }
+  typename std::vector<T>::iterator begin() { return data_.begin(); }
+  typename std::vector<T>::iterator end() { return data_.end(); }
  private:
-  vector<T> data_;
+  std::vector<T> data_;
 };
 
 #endif  // LIB_CONTAINER_SMALL_SET_H_
