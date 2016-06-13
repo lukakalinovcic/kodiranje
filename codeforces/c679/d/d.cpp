@@ -1,14 +1,7 @@
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-#include <vector>
-
-#define CHECK(condition) if (!(condition)) { \
-  printf("CHECK(%s) failed\n", #condition); \
-  exit(0); \
-}
-
-typedef long long int64;
+#include "lib/base/check.h"
+#include "lib/base/integral_types.h"
+#include "lib/container/small_map.h"
+#include "lib/container/small_set.h"
 
 using namespace std;
 
@@ -17,43 +10,6 @@ using namespace std;
 int n, m;
 int g[MAX][MAX];
 int deg[MAX];
-
-template<typename T> 
-class SmallSet {
- public:
-  void insert(const T& value) {
-    for (int i = 0; i < data_.size(); ++i) {
-      if (data_[i] == value) return;
-    }
-    data_.push_back(value);
-  }
-  void clear() {
-    data_.clear();
-  }
-  typename vector<T>::iterator begin() { return data_.begin(); } 
-  typename vector<T>::iterator end() { return data_.end(); } 
- private:
-  vector<T> data_;
-};
-
-template<typename K, typename V> 
-class SmallMap {
- public:
-  V& operator[](const K& key) {
-    for (int i = 0; i < data_.size(); ++i) {
-      if (data_[i].first == key) return data_[i].second;
-    }
-    data_.push_back(pair<K, V>(key, V()));
-    return data_.back().second;
-  }
-  void clear() {
-    data_.clear();
-  }
-  typename vector<pair<K, V>>::iterator begin() { return data_.begin(); } 
-  typename vector<pair<K, V>>::iterator end() { return data_.end(); } 
- private:
-  vector<pair<K, V>> data_;
-};
 
 double prob[MAX][MAX];
 SmallSet<int> neighbour_x[MAX];
