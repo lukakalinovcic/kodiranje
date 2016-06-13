@@ -1,3 +1,6 @@
+#ifndef LIB_STAIRCASE_STAIRCASE_H_
+#define LIB_STAIRCASE_STAIRCASE_H_
+
 #include <limits>
 #include <map>
 
@@ -60,3 +63,5 @@ class Staircase {
   A area_;
   std::map<V, V> points_;
 };
+
+#endif  // LIB_STAIRCASE_STAIRCASE_H_

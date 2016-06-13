@@ -1,3 +1,6 @@
+#ifndef LIB_BITSET_RESETABLE_BITSET_H_
+#define LIB_BITSET_RESETABLE_BITSET_H_
+
 class ResetableBitSet {
  public:
   ResetableBitSet(int n) {
@@ -19,3 +22,5 @@ class ResetableBitSet {
   int active_cookie_ = 0;
   vector<int> cookie_;
 };
+
+#endif  // LIB_BITSET_RESETABLE_BITSET_H_

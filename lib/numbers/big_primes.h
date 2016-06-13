@@ -1,3 +1,6 @@
+#ifndef LIB_NUMBERS_BIG_PRIMES_H_
+#define LIB_NUMBERS_BIG_PRIMES_H_
+
 // Works up to 10^16.
 
 typedef long long int64;
@@ -8,7 +11,7 @@ int64 BigMult(int64 a, int64 b, int64 mod) {
   for (int i = 1; i < 32; ++i) {
     p[i] = (p[i - 1] << 4) % mod;
   }
-  
+
   int64 ret = 0;
   for (int i = 0; i < 16; ++i) {
     for (int j = 0; j < 16; ++j) {
@@ -52,3 +55,5 @@ bool IsPrime(int64 n) {
   if (IsStrongProbablePrime(n, 24251) == 0) return false;
   return true;
 }
+
+#endif  // LIB_NUMBERS_BIG_PRIMES_H_

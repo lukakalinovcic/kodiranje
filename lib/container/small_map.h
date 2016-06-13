@@ -1,6 +1,9 @@
+#ifndef LIB_CONTAINER_SMALL_MAP_H_
+#define LIB_CONTAINER_SMALL_MAP_H_
+
 // Incomplete
 
-template<typename K, typename V> 
+template<typename K, typename V>
 class SmallMap {
  public:
   V& operator[](const K& key) {
@@ -13,8 +16,10 @@ class SmallMap {
   void clear() {
     data_.clear();
   }
-  typename vector<pair<K, V>>::iterator begin() { return data_.begin(); } 
-  typename vector<pair<K, V>>::iterator end() { return data_.end(); } 
+  typename vector<pair<K, V>>::iterator begin() { return data_.begin(); }
+  typename vector<pair<K, V>>::iterator end() { return data_.end(); }
  private:
   vector<pair<K, V>> data_;
 };
+
+#endif  // LIB_CONTAINER_SMALL_MAP_H_

@@ -1,3 +1,6 @@
+#ifndef LIB_NUMBERS_FACTORS_H_
+#define LIB_NUMBERS_FACTORS_H_
+
 #include <algorithm>
 #include <cmath>
 #include <vector>
@@ -92,3 +95,5 @@ class OnlineFactorizator {
  private:
   std::vector<int> primes_;
 };
+
+#endif  // LIB_NUMBERS_FACTORS_H_

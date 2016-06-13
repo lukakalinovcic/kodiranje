@@ -1,3 +1,6 @@
+#ifndef LIB_NUMBERS_PRIMES_H_
+#define LIB_NUMBERS_PRIMES_H_
+
 #include <cmath>
 #include <cstring>
 #include <vector>
@@ -22,3 +25,5 @@ std::vector<int> PrimesUpTo(int n) {
   delete[] data;
   return primes;
 }
+
+#endif  // LIB_NUMBERS_PRIMES_H_

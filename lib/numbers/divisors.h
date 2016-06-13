@@ -1,3 +1,6 @@
+#ifndef LIB_NUMBERS_DIVISORS_H_
+#define LIB_NUMBERS_DIVISORS_H_
+
 #include "factors.h"
 
 template <typename T, typename F>
@@ -22,7 +25,9 @@ class DivisorGenerator {
   }
 
   const F& factorizator() const { return factorizator_; }
-  
+
  private:
   F factorizator_;
 };
+
+#endif  // LIB_NUMBERS_DIVISORS_H_

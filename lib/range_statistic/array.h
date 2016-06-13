@@ -1,3 +1,6 @@
+#ifndef LIB_RANGE_STATISTIC_ARRAY_H_
+#define LIB_RANGE_STATISTIC_ARRAY_H_
+
 #include <algorithm>
 #include <vector>
 
@@ -16,7 +19,7 @@ struct NoPropagation {
   template<typename V>
   void PropagateValue(const ArrayRange& range, V* value) const {}
 };
-  
+
 template<typename V, typename S, typename P = NoPropagation>
 class Array {
  public:
@@ -40,13 +43,13 @@ class Array {
     }
 
    private:
-    ElementMutator(Array<V, S, P>* array, 
+    ElementMutator(Array<V, S, P>* array,
                    int index,
                    std::vector<std::pair<int, ArrayRange>> descent) :
-      array_(array), 
+      array_(array),
       index_(index),
       descent_(descent) {}
-    
+
     Array<V, S, P>* array_;
     int index_;
     std::vector<std::pair<int, ArrayRange>> descent_;
@@ -54,7 +57,7 @@ class Array {
     friend class Array;
   };
 
-  Array(int n, const V& val) { 
+  Array(int n, const V& val) {
     values_ = std::vector<V>(n, val);
     tree_height_ = TreeHeight(values_.size());
     tree_ = std::vector<SP>(1 << tree_height_);
@@ -78,7 +81,7 @@ class Array {
       : Array(container.begin(), container.end()) {}
 
   int size() const { return values_.size(); }
-  
+
   const V& Get(int index) {
     Descend(1, ArrayRange(0, values_.size()), index);
     return values_[index];
@@ -154,7 +157,7 @@ class Array {
       return GetStats(2 * i + 1, ArrayRange(range.mid, range.hi), begin, end);
     }
     S stats;
-    S::Merge(range, 
+    S::Merge(range,
              GetStats(2 * i, ArrayRange(range.lo, range.mid), begin, end),
              GetStats(2 * i + 1, ArrayRange(range.mid, range.hi), begin, end),
              &stats);
@@ -219,3 +222,5 @@ class Array {
   friend class ElementMutator;
 };
 }  // namespace range_statistic
+
+#endif  // LIB_RANGE_STATISTIC_ARRAY_H_
