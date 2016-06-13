@@ -32,8 +32,8 @@ class Staircase {
   }
 
   void AdvanceX0(V x0) {
-    const int y0 = points_.rbegin()->second;
-    int prev_x = points_.begin()->first;
+    const V y0 = points_.rbegin()->second;
+    V prev_x = points_.begin()->first;
     points_.erase(points_.begin());
     while (points_.begin()->first <= x0) {
       area_ -= A(points_.begin()->first - prev_x) *
@@ -46,8 +46,8 @@ class Staircase {
   }
 
   void AdvanceY0(V y0) {
-    const int x0 = points_.begin()->first;
-    int prev_y = points_.rbegin()->second;
+    const V x0 = points_.begin()->first;
+    V prev_y = points_.rbegin()->second;
     points_.erase(--points_.end());
     while (points_.rbegin()->second <= y0) {
       area_ -= A(points_.rbegin()->first - x0) *
