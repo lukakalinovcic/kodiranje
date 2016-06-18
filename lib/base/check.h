@@ -9,4 +9,10 @@ if (!(condition)) { \
   exit(0); \
 }
 
+#ifdef LOCAL
+#define DCHECK(condition) CHECK(condition)
+#else
+#define DCHECK(condition)
+#endif
+
 #endif  // LIB_BASE_CHECK_H_
