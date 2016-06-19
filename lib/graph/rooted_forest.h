@@ -1,91 +1,73 @@
 #ifndef LIB_GRAPH_ROOTED_FOREST_H_
 #define LIB_GRAPH_ROOTED_FOREST_H_
 
-#include <algorithm>
 #include <stack>
 #include <vector>
 
 #include "lib/base/check.h"
 #include "lib/base/empty.h"
-#include "lib/graph/graph_base.h"
+#include "lib/graph/directed_graph.h"
 
-template <typename NodeData>
-class WithParent : public NodeData {
- public:
-  int parent_index() const { return parent_index_; }
-  void set_parent_index(int parent_index) { parent_index_ = parent_index; }
- private:
-  int parent_index_ = -1;
-};
+namespace graph {
 
-template <typename ArcData = Empty, typename NodeData = Empty>
-  class RootedForest
-      : public GraphBase<ArcData, WithParent<NodeData>> {
+template <typename ArcData = Empty>
+class RootedForest : public DirectedGraph<ArcData> {
  public:
-  typedef typename GraphBase<ArcData, WithParent<NodeData>>::Arc Arc;
-  typedef typename GraphBase<ArcData, WithParent<NodeData>>::Node Node;
-  typedef typename GraphBase<ArcData, WithParent<NodeData>>::arc_container arc_container;
-  typedef typename GraphBase<ArcData, WithParent<NodeData>>::node_container node_container;
+  int parent(int i) const { return parent_[i]; }
+  const std::vector<ArcData>& children(int i) const { return this->out_arcs(i); }
+  std::vector<ArcData>& children(int i) { return this->out_arcs(i); }
 
   const std::vector<int>& PreOrderTraversal() { return pre_order_; }
 
-  class Builder {
+  class Builder : public DirectedGraph<ArcData>::Builder {
    public:
-    Builder(int num_nodes) {
-      nodes_.resize(num_nodes);
-    }
+    Builder(int num_nodes) : DirectedGraph<ArcData>::Builder(num_nodes) {}
+    RootedForest<ArcData> Build() {
+      auto graph = DirectedGraph<ArcData>::Builder::Build();
 
-    NodeData& GetNode(int u) {
-      return nodes_[u];
-    }
-
-    ArcData& AddArc(int u, int v) {
-      nodes_[u].arcs().emplace_back(v);
-      return nodes_[u].arcs().back();
-    }
-
-    RootedForest<ArcData, NodeData> Build() {
-      for (int i = 0; i < (int)nodes_.size(); ++i) {
-        std::sort(nodes_[i].arcs().begin(), nodes_[i].arcs().end(), 
-                  [](const Arc& a, const Arc& b) {
-                    return a.endpoint() < b.endpoint();
-                  });
-        for (const Arc& arc : nodes_[i].arcs()) {
-          DCHECK(nodes_[arc.endpoint()].parent_index() == -1);
-          nodes_[arc.endpoint()].set_parent_index(i);
+      std::vector<int> parent(graph.num_nodes(), -1);
+      for (int i = 0; i < graph.num_nodes(); ++i) {
+        for (const auto& arc : graph.out_arcs(i)) {
+          DCHECK(parent[arc.endpoint()] == -1);
+          parent[arc.endpoint()] = i;
         }
       }
+
       std::vector<int> pre_order;
-      pre_order.reserve(nodes_.size());
+      pre_order.reserve(graph.num_nodes());
       std::stack<int> stk;
-      for (int i = 0; i < (int)nodes_.size(); ++i) {
-        if (nodes_[i].parent_index() != -1) continue;
+      for (int i = 0; i < graph.num_nodes(); ++i) {
+        if (parent[i] != -1) continue;
         stk.push(i);
         while (!stk.empty()) {
           const int u = stk.top();
           stk.pop();
           pre_order.push_back(u);
-          for (const Arc& arc : nodes_[u].arcs()) {
+          for (const auto& arc : graph.out_arcs(u)) {
             stk.push(arc.endpoint());
           }
         }
       }
-      return RootedForest<ArcData, NodeData>(std::move(nodes_),
-                                             std::move(pre_order));
-    }
 
-   private:
-    std::vector<Node> nodes_;
+      DCHECK(pre_order.size() == graph.num_nodes());
+      return RootedForest<ArcData>(
+          std::move(graph), std::move(parent), std::move(pre_order));
+    }
   };
 
  protected:
-  RootedForest(std::vector<Node> nodes,
+  RootedForest(DirectedGraph<ArcData> graph,
+               std::vector<int> parent,
                std::vector<int> pre_order) 
-      : GraphBase<ArcData, WithParent<NodeData>>(std::move(nodes)),
-        pre_order_(std::move(pre_order)) {}
+     : DirectedGraph<ArcData>(std::move(graph)),
+       parent_(std::move(parent)),
+       pre_order_(std::move(pre_order)) {}
 
  private:
+  std::vector<int> parent_;
   std::vector<int> pre_order_;
 };
+
+}  // namespace graph
 
 #endif  // LIB_GRAPH_ROOTED_FOREST_H_
