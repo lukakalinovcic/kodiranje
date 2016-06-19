@@ -22,12 +22,12 @@ template <typename ArcData = Empty, typename NodeData = Empty>
     }
 
     NodeData& GetNode(int u) {
-      return nodes_[u].data();
+      return nodes_[u];
     }
 
     ArcData& AddArc(int u, int v) {
       nodes_[u].arcs().emplace_back(v);
-      return nodes_[u].arcs().back().data();
+      return nodes_[u].arcs().back();
     }
 
     DirectedGraph<ArcData, NodeData> Build() {
@@ -46,7 +46,7 @@ template <typename ArcData = Empty, typename NodeData = Empty>
 
  protected:
   DirectedGraph(std::vector<Node> nodes) 
-      : GraphBase<ArcData, NodeData>(nodes) {}
+      : GraphBase<ArcData, NodeData>(std::move(nodes)) {}
 };
 
 #endif  // LIB_GRAPH_DIRECTED_GRAPH_H_

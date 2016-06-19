@@ -9,11 +9,9 @@
 template <typename ArcData = Empty, typename NodeData = Empty>
 class GraphBase {
  public:
-  class Arc : private ArcData {
+  class Arc : public ArcData {
    public:
     Arc(int endpoint) : endpoint_(endpoint) {}
-    inline const ArcData& data() const { return *static_cast<const ArcData*>(this); }
-    inline ArcData& data() { return *static_cast<ArcData*>(this); }
     inline int endpoint() const { return endpoint_; }
    private:
     int endpoint_;
@@ -21,10 +19,8 @@ class GraphBase {
 
   typedef typename std::vector<Arc> arc_container;
 
-  class Node : private NodeData {
+  class Node : public NodeData {
    public:
-    inline const NodeData& data() const { return *static_cast<const NodeData*>(this); }
-    inline NodeData& data() { return *static_cast<NodeData*>(this); }
     inline int num_arcs() const { return arcs_.size(); }
     inline const arc_container& arcs() const { return arcs_; } 
     inline arc_container& arcs() { return arcs_; }
