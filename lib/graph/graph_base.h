@@ -4,53 +4,47 @@
 #include <algorithm>
 #include <vector>
 
-#include "lib/base/empty.h"
+namespace graph {
 
-template <typename ArcData = Empty, typename NodeData = Empty>
+enum ArcOrderStrategy {
+  ARC_ORDER_NONE,
+  ARC_ORDER_SORTED,
+};
+
+template <typename ArcType>
+void ReorderArcs(std::vector<std::vector<ArcType>>& arcs, ArcOrderStrategy strategy) {
+  if (strategy == ARC_ORDER_NONE) return;
+  for (std::vector<ArcType>& node_arcs : arcs) {
+    std::sort(node_arcs.begin(), node_arcs.end(), 
+              [](const ArcType& a, const ArcType& b) {
+                return a.endpoint() < b.endpoint();
+              });
+  }
+}
+
+template <typename ArcData, typename OutArc, typename InArc>
 class GraphBase {
  public:
-  class Arc : public ArcData {
-   public:
-    Arc(int endpoint) : endpoint_(endpoint) {}
-    inline int endpoint() const { return endpoint_; }
-   private:
-    int endpoint_;
-  };
+  typedef std::vector<OutArc> out_arc_container;
+  typedef std::vector<InArc> in_arc_container;
 
-  typedef typename std::vector<Arc> arc_container;
-
-  class Node : public NodeData {
-   public:
-    inline int num_arcs() const { return arcs_.size(); }
-    inline const arc_container& arcs() const { return arcs_; } 
-    inline arc_container& arcs() { return arcs_; }
-   private:
-    std::vector<Arc> arcs_;
-  };
-
-  typedef typename std::vector<Node> node_container;
-
-  inline int num_nodes() const { return nodes_.size(); }
-  inline const node_container& nodes() const { return nodes_; }
-  inline node_container& nodes() { return nodes_; }
-  inline const Node& node(int u) const { return nodes_[u]; }
-  inline Node& node(int u) { return nodes_[u]; }
-
-  Arc* FindArcOrNull(int u, int v) {
-    auto it = std::lower_bound(node(u).arcs().begin(),
-                               node(u).arcs().end(), v,
-                               [](const Arc& arc, int v) { 
-                                 return arc.endpoint() < v;
-                               });
-    if (it == node(u).arcs().end() || it->endpoint() != v) return nullptr;
-    return &*it;
-  }
-
+  int num_nodes() const { return num_nodes_; }
  protected:
-  GraphBase(std::vector<Node> nodes) 
-      : nodes_(std::move(nodes)) {}
-
-  std::vector<Node> nodes_;
+  GraphBase(int num_nodes,
+            std::vector<ArcData> data_store,
+            std::vector<std::vector<OutArc>> out_arcs,
+            std::vector<std::vector<InArc>> in_arcs) 
+      : num_nodes_(num_nodes),
+        data_store_(std::move(data_store)),
+        out_arcs_(std::move(out_arcs)),
+        in_arcs_(std::move(in_arcs)) {}
+  
+  int num_nodes_;
+  std::vector<ArcData> data_store_;
+  std::vector<std::vector<OutArc>> out_arcs_;
+  std::vector<std::vector<InArc>> in_arcs_;
 };
+
+}  // namespace graph
 
 #endif  // LIB_GRAPH_GRAPH_BASE_H_
