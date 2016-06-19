@@ -12,9 +12,9 @@ class Arc : private Data {
  public:
   Arc(int endpoint) : endpoint_(endpoint) {}
   Arc(int endpoint, const Data& data) : Data(data), endpoint_(endpoint) {}
-  inline int endpoint() const { return endpoint_; }
-  inline const Data& data() const { return *static_cast<const Data*>(this); }
-  inline Data& data() { return *static_cast<Data*>(this); }
+  int endpoint() const { return endpoint_; }
+  const Data& data() const { return *static_cast<const Data*>(this); }
+  Data& data() { return *static_cast<Data*>(this); }
  private:
   int endpoint_;
 };
@@ -23,9 +23,9 @@ template <class Data>
 class Arc<Data*> {
  public:
   Arc(int endpoint, Data* data) : endpoint_(endpoint), data_(data) {}
-  inline int endpoint() const { return endpoint_; }
-  inline const Data& data() const { return *data_; }
-  inline Data& data() { return *data_; }
+  int endpoint() const { return endpoint_; }
+  const Data& data() const { return *data_; }
+  Data& data() { return *data_; }
  private:
   int endpoint_;
   Data* data_;
