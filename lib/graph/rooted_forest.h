@@ -14,8 +14,8 @@ template <typename ArcData = Empty>
 class RootedForest : public DirectedGraph<ArcData> {
  public:
   int parent(int i) const { return parent_[i]; }
-  const std::vector<ArcData>& children(int i) const { return this->out_arcs(i); }
-  std::vector<ArcData>& children(int i) { return this->out_arcs(i); }
+  const std::vector<Arc<ArcData>>& children(int i) const { return this->out_arcs(i); }
+  std::vector<Arc<ArcData>>& children(int i) { return this->out_arcs(i); }
 
   const std::vector<int>& PreOrderTraversal() { return pre_order_; }
 
