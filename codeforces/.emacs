@@ -20,7 +20,7 @@
   (save-buffer arg)
   (if (file-readable-p "./Makefile")
                 (compile "make")
-        (compile (concat "g++ -o \"" exe-name "\" \"" buffer-file-name "\" -O2 -Wall -lm --std=c++11")))
+        (compile (concat "g++ -o \"" exe-name "\" \"" buffer-file-name "\" -O2 -Wall -lm --std=c++17 -I/home/kalinov/kodiranje")))
 )
 
 (defun topcoder-compile (&optional arg) (interactive)
