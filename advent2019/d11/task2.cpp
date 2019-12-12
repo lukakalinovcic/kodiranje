@@ -142,6 +142,7 @@ void Draw() {
 
 int main() {
   vector<int64> prog = Read();
+  SetColor(0, 0, 1);
   Execute(prog);
   printf("%d\n", (int)color.size());
   Draw();
