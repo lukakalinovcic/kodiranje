@@ -70,6 +70,7 @@ int main() {
       a[r][c] = '.';
       out.push_back(in[i]);
       printf("out #%d:: %d %d\n", out.size(), c, r);
+
       for (j = i; j < (int)in.size() && ccw(in[i], in[j]) == 0; ++j);
     }
   }
