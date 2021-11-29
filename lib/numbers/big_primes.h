@@ -1,23 +1,10 @@
 #ifndef LIB_NUMBERS_BIG_PRIMES_H_
 #define LIB_NUMBERS_BIG_PRIMES_H_
-// Works up to 10^16.
+// Works up to 10^18.
 #include "lib/base/integral_types.h"
 
 int64 BigMult(int64 a, int64 b, int64 mod) {
-  static int64 p[32];
-  p[0] = 1 % mod;
-  for (int i = 1; i < 32; ++i) {
-    p[i] = (p[i - 1] << 4) % mod;
-  }
-
-  int64 ret = 0;
-  for (int i = 0; i < 16; ++i) {
-    for (int j = 0; j < 16; ++j) {
-      ret = (ret + ((a >> (i * 4)) & 0xF) *
-                   ((b >> (j * 4)) & 0xF) * p[i + j]) % mod;
-    }
-  }
-  return ret;
+  return int64(__int128(a) * __int128(b) % __int128(mod));
 }
 
 int64 BigPow(int64 a, int64 n, int64 mod) {
